@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Chestnut</title>
+    <title>Rubick</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-table.css">
 </head>
@@ -40,9 +40,23 @@
         </div>
         <div class="form-group">
             <input id="Go" type="button" value="Go" onclick="search()">
+            <input id="refresh" type="button" value="refresh" onclick="refresh()">
         </div>
-        <table id="table" data-toggle="table">
-
+        <table id="table" data-toggle="table"
+               data-toolbar="#toolbar"
+               data-striped="true"
+               data-pagination="true"
+               data-pagination-loop="true"
+               data-single-select="true"
+               data-side-pagination="client"
+               data-search="true"
+               data-page-size="10">
+            <thead>
+            <tr>
+                <th data-field="column0" data-sortable="true">ID</th>
+                <th data-field="column1" data-sortable="true">Item Name</th>
+            </tr>
+            </thead>
         </table>
     </div>
 </body>

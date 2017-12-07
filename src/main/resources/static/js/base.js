@@ -91,34 +91,37 @@ function search() {
         return ;
     }
     // alert(arr);
-    $.ajax({
-        url :"search",
-        type : 'get',
-        dataType : "json",
-        async : false,
-        success : function(returnValue) {
-            // 未查询到相应的列，展示默认列
-            if (returnValue.retCode == "0") {
-                //没查到列的时候把之前的列再给它
-                myColumns = $table.bootstrapTable('getOptions').columns[0];
-            } else {
-                // 异步获取要动态生成的列
-                var arr = returnValue.data;
-                $.each(arr, function(i, item) {
-                    myColumns.push({
-                        "field" : item.labelColumnCode,
-                        "title" : item.labelColumnName,
-                        "hide" : true,
-                        "align" : 'center',
-                        "valign" : 'middle'
-                    });
-                });
-            }
-            console.log(myColumns);
-            return myColumns;
-        }
-    });
+    // $.ajax({
+    //     url :"/base/column",
+    //     type : 'get',
+    //     dataType : "json",
+    //     async : false,
+    //     success : function(data) {
+    //         if (data.retCode == "0") {
+    //             return ;
+    //         } else {
+    //             // var arr = returnValue;
+    //             var test1="<thead><tr>";
+    //             $.each(data, function(i, item) {
+    //                 // $("tr").append("<th data-field=\""+item.field+"\" data-sortable=\"true\">"+item.title+"</th>");
+    //                 test1=test1+"<th data-field=\""+item.field+"\" data-sortable=\"true\">"+item.title+"</th>"
+    //             });
+    //             test1=test1+"</tr></thead>";
+    //             $('#table').append(test1);
+    //         }
+    //     }
+    // });
+}
 
+function refresh() {
+    var data1 =[];
+    for(var j=0;j<20;j++){
+        data1.push({
+            column0: j,
+            column1: 'Item '+j
+        });
+    }
+    $('#table').bootstrapTable('append',data1);
 }
 
 function clearFilter() {
@@ -127,60 +130,4 @@ function clearFilter() {
             $("#li"+i+"").remove();
         }
     }
-}
-
-function showTable() {
-    var $table = $('#table');
-    $table.bootstrapTable({
-        url: "search",
-        method: 'get',//请求方法
-        striped: true,//是否显示行间隔色
-        pageSize: 10,//每页的记录行数（*）
-        dataType: "json",
-        toolbar: '#toolbar',
-        pagination: true, //分页
-        singleSelect: false,
-        // data-locale:"zh-US" , //表格汉化
-        search: true, //显示搜索框
-        sidePagination: "server", //服务端处理分页
-        ////查询参数,每次调用是会带上这个参数，可自定义
-        queryParams: function(params) {
-            // var subcompany = $('#subcompany option:selected').val();
-            // var name = $('#name').val();
-            return {
-                pageNumber: params.offset+1,
-                pageSize: params.limit
-                // companyId:subcompany,
-                // name:name
-            };
-        },
-        columns: [
-            {
-                title: '活动名称',
-                field: 'name',
-                align: 'center',
-                valign: 'middle',
-                sortable: true
-            },
-            {
-                title: '参与人数',
-                field: 'participationCounts',
-                align: 'center',
-                sortable: true
-            }
-            // {
-            //     title: '操作',
-            //     field: 'id',
-            //     align: 'center',
-            //     formatter:function(value,row,index){
-            //         var e = '<a href="#" mce_href="#" onclick="edit(\''+ row.id + '\')">编辑</a> ';
-            //         var d = '<a href="#" mce_href="#" onclick="del(\''+ row.id +'\')">删除</a> ';
-            //         return e+d;
-            //     }
-            // }
-        ],
-        onSort : function (name,order) {
-            alert(name+order);
-        }
-    });
 }

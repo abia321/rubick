@@ -29,14 +29,13 @@ public class SearchHandler {
     /**
      *
      * */
-    public void searchBuilder(QueryBuilder queryBuilder, String indexname,
-                              String type, Integer pageNum, String sort){
+    public void searchBuilder(QueryBuilder queryBuilder,
+                              String indexname, String type){
         SearchRequestBuilder searchRequestBuilder=elasticConfigClient.getClient()
                 .prepareSearch(indexname).setTypes(type)
                 .setQuery(queryBuilder)
-                .setSize(20)
-                .setFrom(pageNum);
-        searchRequestBuilder.addSort("follow", SortOrder.DESC);
+                .setSize(1000);
+//        searchRequestBuilder.addSort("follow", SortOrder.DESC);
         SearchResponse searchResponseAllHits=searchRequestBuilder.execute().actionGet();
         SearchHits hits = searchResponseAllHits.getHits();
         SearchHit[] searchHists = hits.getHits();

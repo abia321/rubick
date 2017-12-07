@@ -55,15 +55,28 @@ public class BaseController {
 //        if(StringUtils.isBlank(queryFilter)){
 //           return array;
 //        }
-        for(int i=0;i<20;i++){
+        for(int i=0;i<10;i++){
             JSONObject json = new JSONObject();
-            json.put("name","baifan"+i);
-            json.put("participationCounts",123);
+            json.put("column0","baifan"+i);
+            json.put("column1",123);
             array.add(json);
         }
         JSONObject result = new JSONObject();
         result.put("total",20);
         result.put("rows",array);
         return result;
+    }
+
+    @RequestMapping("/column")
+    @ResponseBody
+    public JSONArray getColumn(){
+        JSONArray array = new JSONArray();
+        for(int i=0;i<2;i++){
+            JSONObject json = new JSONObject();
+            json.put("field","column"+i);
+            json.put("title",123+i);
+            array.add(json);
+        }
+        return array;
     }
 }
