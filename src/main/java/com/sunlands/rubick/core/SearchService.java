@@ -10,6 +10,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -25,10 +26,14 @@ public class SearchService {
 
     private static Logger logger = LoggerFactory.getLogger(SearchService.class);
 
+    @Autowired
+    private SearchHandler searchHandler;
+
     /**
      *
      * */
-    public JSONArray search(String queryFilter,String index,String pageNum){
+    public JSONArray search(String queryFilter,String index){
+        logger.info(queryFilter);
         List<Filter> filterList = JSONArray.parseArray(queryFilter,Filter.class);
         if(CollectionUtils.isEmpty(filterList)){
             return null;
@@ -78,9 +83,10 @@ public class SearchService {
                     logicFormer(boolQuery,rangeQuery,filter.getLogic());
                     break;
             }
-            //search
-
+            logger.info(boolQuery.toString());
         }
+        //search
+        searchHandler.searchBuilder(boolQuery,index,index);
         return null;
     }
 

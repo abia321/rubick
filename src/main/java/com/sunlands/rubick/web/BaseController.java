@@ -4,12 +4,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sunlands.rubick.common.Index;
 import com.sunlands.rubick.core.BaseService;
+import com.sunlands.rubick.core.SearchService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,6 +29,9 @@ public class BaseController {
 
     @Autowired
     private BaseService baseService;
+
+    @Autowired
+    private SearchService searchService;
 
     /**
      *  get cluster total index
@@ -67,16 +73,22 @@ public class BaseController {
         return result;
     }
 
-    @RequestMapping("/column")
+    @RequestMapping(value = "/column", method = RequestMethod.POST)
     @ResponseBody
-    public JSONArray getColumn(){
+    public JSONArray getColumn(@RequestParam String queryFilter,
+                               @RequestParam String index){
         JSONArray array = new JSONArray();
-        for(int i=0;i<2;i++){
-            JSONObject json = new JSONObject();
-            json.put("field","column"+i);
-            json.put("title",123+i);
-            array.add(json);
+//        for(int i=0;i<2;i++){
+//            JSONObject json = new JSONObject();
+//            json.put("field","column"+i);
+//            json.put("title",123+i);
+//            array.add(json);
+//        }
+        if(StringUtils.isBlank(index) ||
+                StringUtils.isBlank(queryFilter)){
+            return array;
         }
+        searchService.search(queryFilter,index);
         return array;
     }
 }

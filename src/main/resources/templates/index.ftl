@@ -53,8 +53,8 @@
                data-page-size="10">
             <thead>
             <tr>
-                <th data-field="column0" data-sortable="true">ID</th>
-                <th data-field="column1" data-sortable="true">Item Name</th>
+                <#--<th data-field="column0" data-sortable="true">ID</th>-->
+                <#--<th data-field="column1" data-sortable="true">Item Name</th>-->
             </tr>
             </thead>
         </table>

@@ -70,7 +70,8 @@ function search() {
         alert("The param illegal,please try again.");
         return ;
     }
-    var arr=new Array();
+    // var arr=new Array();
+    var json="[";
     for(var j=1;j<=count;j++){
         if($("#li"+j+"").length==0){
             continue ;
@@ -78,39 +79,54 @@ function search() {
         if($('#value'+j).val().length==0){
             continue ;
         }
-        var json= {
-            "logic":$('#logic'+j+' option:selected').val(),
-            "field":$('#field'+j+' option:selected').val(),
-            "op":$('#op'+j+' option:selected').val(),
-            "value":$('#value'+j).val(),
+        json=json+"{\"logic\":\""+$('#logic'+j+' option:selected').val()+"\",\"field\":\""+$('#field'+j+' option:selected').val()+"\",\"op\":\""+$('#op'+j+' option:selected').val()+"\",\"value\":\""+$('#value'+j).val()+"\"}";
+        if(j!=count){
+            json=json+",";
         }
-        arr.push(JSON.stringify(json));
+        // arr.push(json);
     }
-    if(arr.length==0){
-        alert("Please input the value");
-        return ;
+    json=json+"]";
+    // if(arr.length==0){
+    //     alert("Please input the value");
+    //     return ;
+    // }
+    alert(json);
+    // alert(json.toString());
+    var index= $('#index option:selected').val();
+    var columns = [];
+    $.ajax({
+        url :"/base/column",
+        type : 'post',
+        data:{
+            "index":index,
+            "queryFilter":json
+        },
+        dataType : "json",
+        async : false,
+        success : function(data) {
+            if (data.retCode == "0") {
+                return ;
+            } else {
+                // var arr = returnValue;
+                $.each(data, function(i, item) {
+                    // $("tr").append("<th data-field=\""+item.field+"\" data-sortable=\"true\">"+item.title+"</th>");
+                    columns.push({ "field": item.field, "title": item.title, "sortable": true });
+                });
+                // $('#table').append(test1);
+            }
+        }
+    });
+    var data1 =[];
+    for(var j=0;j<20;j++){
+        data1.push({
+            column0: '0.00'+j,
+            column1: 'Item '+j
+        });
     }
-    // alert(arr);
-    // $.ajax({
-    //     url :"/base/column",
-    //     type : 'get',
-    //     dataType : "json",
-    //     async : false,
-    //     success : function(data) {
-    //         if (data.retCode == "0") {
-    //             return ;
-    //         } else {
-    //             // var arr = returnValue;
-    //             var test1="<thead><tr>";
-    //             $.each(data, function(i, item) {
-    //                 // $("tr").append("<th data-field=\""+item.field+"\" data-sortable=\"true\">"+item.title+"</th>");
-    //                 test1=test1+"<th data-field=\""+item.field+"\" data-sortable=\"true\">"+item.title+"</th>"
-    //             });
-    //             test1=test1+"</tr></thead>";
-    //             $('#table').append(test1);
-    //         }
-    //     }
-    // });
+    $('#table').bootstrapTable('destroy').bootstrapTable({
+        data: data1,
+        columns: columns
+    });
 }
 
 function refresh() {
