@@ -1,6 +1,7 @@
 package com.sunlands.rubick.core;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.sunlands.rubick.common.Filter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,14 +33,19 @@ public class SearchService {
     /**
      *
      * */
-    public JSONArray search(String queryFilter,String index){
-        logger.info(queryFilter);
+    public JSONObject search(String queryFilter, String index){
+        JSONObject json = new JSONObject();
         List<Filter> filterList = JSONArray.parseArray(queryFilter,Filter.class);
         if(CollectionUtils.isEmpty(filterList)){
-            return null;
+            return json;
         }
         BoolQueryBuilder boolQuery = new BoolQueryBuilder();
         for(Filter filter:filterList){
+            String[] arr=StringUtils.split(filter.getField(),".",2);
+            if(arr.length!=2 || StringUtils.isBlank(arr[1])){
+                continue;
+            }
+            filter.setField(arr[1]);
             switch (filter.getOp()){
                 case "term":
                     QueryBuilder termQuery = QueryBuilders.termQuery(filter.getField(),
@@ -83,11 +89,10 @@ public class SearchService {
                     logicFormer(boolQuery,rangeQuery,filter.getLogic());
                     break;
             }
-            logger.info(boolQuery.toString());
         }
         //search
-        searchHandler.searchBuilder(boolQuery,index,index);
-        return null;
+        json=searchHandler.searchBuilder(boolQuery,index);
+        return json;
     }
 
     private Map<String,String> rangeDataFormer(String value){

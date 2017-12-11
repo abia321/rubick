@@ -17,7 +17,7 @@
         <file>${log.path}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--<fileNamePattern>rubick.%d{yyyy-MM-dd_HH}.log</fileNamePattern>-->
-            <fileNamePattern>chestnut.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>rubick.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!--<maxHistory>168</maxHistory>-->
         </rollingPolicy>
         <encoder>

@@ -70,7 +70,6 @@ function search() {
         alert("The param illegal,please try again.");
         return ;
     }
-    // var arr=new Array();
     var json="[";
     for(var j=1;j<=count;j++){
         if($("#li"+j+"").length==0){
@@ -83,17 +82,11 @@ function search() {
         if(j!=count){
             json=json+",";
         }
-        // arr.push(json);
     }
     json=json+"]";
-    // if(arr.length==0){
-    //     alert("Please input the value");
-    //     return ;
-    // }
-    alert(json);
-    // alert(json.toString());
     var index= $('#index option:selected').val();
     var columns = [];
+    var result;
     $.ajax({
         url :"/base/column",
         type : 'post',
@@ -104,40 +97,20 @@ function search() {
         dataType : "json",
         async : false,
         success : function(data) {
-            if (data.retCode == "0") {
+            if (data.column.length==0) {
                 return ;
             } else {
-                // var arr = returnValue;
-                $.each(data, function(i, item) {
-                    // $("tr").append("<th data-field=\""+item.field+"\" data-sortable=\"true\">"+item.title+"</th>");
-                    columns.push({ "field": item.field, "title": item.title, "sortable": true });
+                $.each(data.column, function(i, item) {
+                    columns.push({ "field": item, "title": item, "sortable": true });
                 });
-                // $('#table').append(test1);
+                result=data.data;
             }
         }
     });
-    var data1 =[];
-    for(var j=0;j<20;j++){
-        data1.push({
-            column0: '0.00'+j,
-            column1: 'Item '+j
-        });
-    }
     $('#table').bootstrapTable('destroy').bootstrapTable({
-        data: data1,
+        data: result,
         columns: columns
     });
-}
-
-function refresh() {
-    var data1 =[];
-    for(var j=0;j<20;j++){
-        data1.push({
-            column0: j,
-            column1: 'Item '+j
-        });
-    }
-    $('#table').bootstrapTable('append',data1);
 }
 
 function clearFilter() {

@@ -40,7 +40,6 @@
         </div>
         <div class="form-group">
             <input id="Go" type="button" value="Go" onclick="search()">
-            <input id="refresh" type="button" value="refresh" onclick="refresh()">
         </div>
         <table id="table" data-toggle="table"
                data-toolbar="#toolbar"

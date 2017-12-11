@@ -75,9 +75,9 @@ public class BaseController {
 
     @RequestMapping(value = "/column", method = RequestMethod.POST)
     @ResponseBody
-    public JSONArray getColumn(@RequestParam String queryFilter,
+    public JSONObject getColumn(@RequestParam String queryFilter,
                                @RequestParam String index){
-        JSONArray array = new JSONArray();
+        JSONObject json = new JSONObject();
 //        for(int i=0;i<2;i++){
 //            JSONObject json = new JSONObject();
 //            json.put("field","column"+i);
@@ -86,9 +86,9 @@ public class BaseController {
 //        }
         if(StringUtils.isBlank(index) ||
                 StringUtils.isBlank(queryFilter)){
-            return array;
+            return json;
         }
-        searchService.search(queryFilter,index);
-        return array;
+        json=searchService.search(queryFilter,index);
+        return json;
     }
 }
