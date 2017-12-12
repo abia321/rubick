@@ -47,9 +47,9 @@ function addQueryFilter() {
         "                        <option value=\"prefix\">prefix</option>\n" +
         "                        <option value=\"wildcard\">wildcard(not recommand)</option>\n" +
         "                    </select>\n" +
-        "                    <input id=\"value"+count+"\" type=\"text\" placeholder=\"please input like this with range query:100<x<=1000 or x<=1000\">\n" +
-        "                    <input id=\"add"+count+"\" type=\"button\" value=\"+\" onclick=\"addQueryFilter()\">" +
-        "                    <input id=\"remove"+count+"\" type=\"button\" value=\"-\" onclick=\"removeQueryFilter("+count+")\"></li>");
+        "                    <input id=\"value"+count+"\" type=\"text\" class=\"form-control\">\n" +
+        "                    <input id=\"add"+count+"\" type=\"button\" class=\"btn\" value=\"+\" onclick=\"addQueryFilter()\">" +
+        "                    <input id=\"remove"+count+"\" type=\"button\" class=\"btn\" value=\"-\" onclick=\"removeQueryFilter("+count+")\"></li>");
     for(var i=0;i<arr.length;i++){
         $("#field"+count).append("<option value="+arr[i]+">"+arr[i]+"</option>");
     }

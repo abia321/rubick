@@ -7,34 +7,37 @@
     <link rel="stylesheet" href="/css/bootstrap-table.css">
 </head>
 <body>
-    <div style="text-align: left;margin:0 auto;width: 1000px; ">
+    <div><h1>Rubick</h1></div>
+    <div style="text-align: left;margin:0 auto;width: 80%; ">
         <div class="form-group">
             <label>please choose the index :</label>
             <select class="form-control" id="index" onchange="changeField()">
-                <option value="0">请选择</option>
+                <option value="0">default</option>
                 <#list indexList as item>
                     <option value="${item.index}">${item.index}</option>
                 </#list>
             </select>
         </div>
-        <div class="form-group">
+        <div>Only Return 1000 Messages</div>
+        Please Input Range Query Value Like This:<label style="color:red"><strong>gt:1000 & lte:2000</strong></label>
+        <div class="form-inline">
             <ol>
                 <li id="li1">
-                    <select class="form-control" id="logic1">
+                    <select id="logic1" class="form-control">
                         <option value="must">must</option>
                         <option value="must_not">must_not</option>
                         <option value="should">should</option>
                     </select>
-                    <select class="form-control" id="field1"></select>
-                    <select class="form-control" id="op1">
+                    <select id="field1" class="form-control"></select>
+                    <select id="op1" class="form-control">
                         <option value="term">term</option>
                         <option value="match">match</option>
                         <option value="range">range</option>
                         <option value="prefix">prefix</option>
                         <option value="wildcard">wildcard(not recommand)</option>
                     </select>
-                    <input id="value1" type="text" placeholder="please input like this with range query:gt:1000&lte 2000">
-                    <input id="add1" type="button" value="+" onclick="addQueryFilter()">
+                    <input id="value1" type="text" class="form-control">
+                    <input id="add1" type="button" class="btn" value="+" onclick="addQueryFilter()">
                 </li>
             </ol>
         </div>
@@ -48,7 +51,6 @@
                data-pagination-loop="true"
                data-single-select="true"
                data-side-pagination="client"
-               data-search="true"
                data-page-size="10">
             <thead>
             <tr>

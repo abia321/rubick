@@ -105,7 +105,7 @@ public class SearchService {
             return map;
         }
         for(int i=0;i<str.length;i++){
-            String[] rangeValue= StringUtils.split(value,":");
+            String[] rangeValue= StringUtils.split(str[i],":");
             if(rangeValue.length !=2){
                 continue;
             }

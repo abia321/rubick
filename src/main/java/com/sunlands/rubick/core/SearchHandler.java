@@ -30,9 +30,6 @@ public class SearchHandler {
     @Autowired
     private ElasticConfigClient elasticConfigClient;
 
-    private Set<String> set = new HashSet<>();
-    private JSONArray array = new JSONArray();
-
     /**
      *
      * */
@@ -49,12 +46,13 @@ public class SearchHandler {
         if(ArrayUtils.isEmpty(searchHists)){
             return result;
         }
+        Set<String> set = new HashSet<>();
+        JSONArray array = new JSONArray();
         for(SearchHit hit:searchHists){
             JSONObject json = new JSONObject();
             for(JSONObject.Entry<String,Object> entry:hit.getSourceAsMap().entrySet()){
-                JSONObject data = new JSONObject();
                 getMapKey(JSONObject.toJSON(entry.getValue())
-                        .toString(),entry.getKey(),data);
+                        .toString(),entry.getKey(),json,set,array);
             }
             array.add(json);
         }
@@ -63,17 +61,17 @@ public class SearchHandler {
         return result;
     }
 
-    private void getMapKey(String str,String prefix,JSONObject data){
+    private void getMapKey(String str,String prefix,JSONObject data,
+                           Set<String> set,JSONArray array){
         if(StringUtils.contains(str,"{")){
             JSONObject json= JSONObject.parseObject(str);
             for(JSONObject.Entry<String,Object> entry:json.entrySet()){
                 this.getMapKey(JSONObject.toJSON(entry.getValue()).toString(),
-                        prefix+"."+entry.getKey(),data);
+                        prefix+"."+entry.getKey(),data,set,array);
             }
         }else {
             set.add(prefix);
             data.put(prefix,str);
-            array.add(data);
         }
     }
 }
