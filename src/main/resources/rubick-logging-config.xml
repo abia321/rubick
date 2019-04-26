@@ -31,7 +31,7 @@
     </root>
 
     <!-- logback为java中的包
-    <logger name="com.sunlands"/>-->
+    <logger name="com.elasticsearch"/>-->
     <!--logback.LogbackDemo：类的全路径 -->
     <logger name="com.sunlands" level="INFO" additivity="true">
         <appender-ref ref="console"/>
